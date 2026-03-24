@@ -3,7 +3,6 @@ import { obtenerProyectos, Proyecto } from "@/lib/services/proyectos.service";
 import { obtenerTareas, Tarea } from "@/lib/services/tareas.service";
 
 export interface DashboardData {
-  loading: boolean;
   proyectos: Proyecto[];
   tareas: Tarea[];
   totalProyectos: number;
@@ -19,7 +18,6 @@ export interface DashboardData {
 function useDashboardData(): DashboardData {
   const [proyectos, setProyectos] = useState<Proyecto[]>([]);
   const [tareas, setTareas] = useState<Tarea[]>([]);
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -32,10 +30,6 @@ function useDashboardData(): DashboardData {
         setTareas(tareasData);
       } catch (error) {
         console.error("Error al cargar datos:", error);
-      } finally {
-        setTimeout(() => {
-          setLoading(false);
-        }, 2000);
       }
     };
 
@@ -43,7 +37,6 @@ function useDashboardData(): DashboardData {
   }, []);
 
   return {
-    loading,
     proyectos,
     tareas,
     totalProyectos: proyectos.length,
