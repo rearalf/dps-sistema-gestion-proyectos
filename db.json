@@ -1,0 +1,126 @@
+{
+  "$schema": "./node_modules/json-server/schema.json",
+  "usuarios": [
+    {
+      "id": 1,
+      "nombre": "Carlos Martínez",
+      "email": "carlos@ejemplo.com",
+      "password": "123456",
+      "rol": "gerente"
+    },
+    {
+      "id": 2,
+      "nombre": "Ana García",
+      "email": "ana@ejemplo.com",
+      "password": "123456",
+      "rol": "usuario"
+    },
+    {
+      "id": 3,
+      "nombre": "Luis Pérez",
+      "email": "luis@ejemplo.com",
+      "password": "123456",
+      "rol": "usuario"
+    }
+  ],
+  "proyectos": [
+    {
+      "id": 1,
+      "nombre": "Sistema de Ventas",
+      "descripcion": "Desarrollo de un sistema de ventas online con carrito de compras",
+      "fechaInicio": "2024-01-15",
+      "fechaFin": "2024-06-30",
+      "estado": "en-progreso",
+      "gerenteId": 1,
+      "usuariosAsignados": [2, 3]
+    },
+    {
+      "id": 2,
+      "nombre": "App Mobile Delivery",
+      "descripcion": "Aplicación móvil para delivery de comida",
+      "fechaInicio": "2024-02-01",
+      "fechaFin": "2024-08-15",
+      "estado": "planificacion",
+      "gerenteId": 1,
+      "usuariosAsignados": [2]
+    },
+    {
+      "id": 3,
+      "nombre": "Portal Corporativo",
+      "descripcion": "Portal web para gestión interna de la empresa",
+      "fechaInicio": "2023-11-01",
+      "fechaFin": "2024-03-20",
+      "estado": "completado",
+      "gerenteId": 1,
+      "usuariosAsignados": [3]
+    }
+  ],
+  "tareas": [
+    {
+      "id": 1,
+      "proyectoId": 1,
+      "titulo": "Diseño de base de datos",
+      "descripcion": "Crear el modelo entidad-relación y esquema de la base de datos",
+      "estado": "completada",
+      "prioridad": "alta",
+      "usuarioAsignadoId": 2,
+      "fechaCreacion": "2024-01-16",
+      "fechaVencimiento": "2024-01-25"
+    },
+    {
+      "id": 2,
+      "proyectoId": 1,
+      "titulo": "Implementar autenticación",
+      "descripcion": "Sistema de login y registro de usuarios",
+      "estado": "en-progreso",
+      "prioridad": "alta",
+      "usuarioAsignadoId": 3,
+      "fechaCreacion": "2024-01-20",
+      "fechaVencimiento": "2024-02-10"
+    },
+    {
+      "id": 3,
+      "proyectoId": 1,
+      "titulo": "Crear catálogo de productos",
+      "descripcion": "Interfaz para mostrar productos con filtros y búsqueda",
+      "estado": "pendiente",
+      "prioridad": "media",
+      "usuarioAsignadoId": 2,
+      "fechaCreacion": "2024-01-22",
+      "fechaVencimiento": "2024-03-01"
+    },
+    {
+      "id": 4,
+      "proyectoId": 2,
+      "titulo": "Diseño UI/UX",
+      "descripcion": "Crear wireframes y mockups de la aplicación",
+      "estado": "en-progreso",
+      "prioridad": "alta",
+      "usuarioAsignadoId": 2,
+      "fechaCreacion": "2024-02-02",
+      "fechaVencimiento": "2024-02-20"
+    },
+    {
+      "id": 5,
+      "proyectoId": 2,
+      "titulo": "Integración con API de pagos",
+      "descripcion": "Conectar con pasarela de pagos para procesar transacciones",
+      "estado": "pendiente",
+      "prioridad": "baja",
+      "usuarioAsignadoId": null,
+      "fechaCreacion": "2024-02-05",
+      "fechaVencimiento": "2024-04-15"
+    },
+    {
+      "id": 6,
+      "proyectoId": 3,
+      "titulo": "Deploy en producción",
+      "descripcion": "Configurar servidor y desplegar aplicación",
+      "estado": "completada",
+      "prioridad": "media",
+      "usuarioAsignadoId": 3,
+      "fechaCreacion": "2024-03-15",
+      "fechaVencimiento": "2024-03-20"
+    }
+  ]
+}
