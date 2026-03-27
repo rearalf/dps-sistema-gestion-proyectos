@@ -1,6 +1,5 @@
 {
-  "$schema": "./node_modules/json-server/schema.json",
-  "usuarios": [
+  "users": [
     {
       "id": 1,
       "nombre": "Carlos Martínez",
