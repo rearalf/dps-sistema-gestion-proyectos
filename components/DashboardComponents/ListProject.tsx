@@ -26,7 +26,7 @@ const ListProject = ({ proyectos }: ListProjectProps) => {
                   {proyecto.nombre}
                 </h3>
                 <span
-                  className={`px-2 py-1 text-xs rounded-full whitespace-nowrap flex-shrink-0 ${
+                  className={`px-2 py-1 text-xs rounded-full whitespace-nowrap shrink-0 ${
                     proyecto.estado === "completado"
                       ? "bg-green-900/40 text-green-400"
                       : proyecto.estado === "en-progreso"

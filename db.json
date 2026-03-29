@@ -29,7 +29,7 @@
       "descripcion": "Desarrollo de un sistema de ventas online con carrito de compras",
       "fechaInicio": "2024-01-15",
       "fechaFin": "2024-06-30",
-      "estado": "planificacion",
+      "estado": "en-progreso",
       "gerenteId": 1,
       "usuariosAsignados": [2, 3]
     },
@@ -49,7 +49,7 @@
       "descripcion": "Portal web para gestión interna de la empresa",
       "fechaInicio": "2023-11-01",
       "fechaFin": "2024-03-20",
-      "estado": "planificacion",
+      "estado": "completada",
       "gerenteId": 1,
       "usuariosAsignados": [3]
     }
