@@ -1,37 +1,29 @@
 import { NextRequest, NextResponse } from "next/server";
 import { fetchFromJsonServer } from "@/lib/api";
 
-export async function PUT(
-  request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-) {
+export async function GET() {
   try {
-    const { id } = await params;
-    const body = await request.json();
-    const proyecto = await fetchFromJsonServer(`/proyectos/${id}`, {
-      method: "PUT",
-      data: body,
-    });
-    return NextResponse.json(proyecto);
+    const proyectos = await fetchFromJsonServer("/proyectos");
+    return NextResponse.json(proyectos);
   } catch {
     return NextResponse.json(
-      { message: "Error al actualizar proyecto" },
+      { message: "Error al obtener proyectos" },
       { status: 500 }
     );
   }
 }
 
-export async function DELETE(
-  _request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-) {
+export async function POST(request: NextRequest) {
   try {
-    const { id } = await params;
-    await fetchFromJsonServer(`/proyectos/${id}`, { method: "DELETE" });
-    return NextResponse.json({ message: "Proyecto eliminado correctamente" });
+    const body = await request.json();
+    const proyecto = await fetchFromJsonServer("/proyectos", {
+      method: "POST",
+      data: body,
+    });
+    return NextResponse.json(proyecto, { status: 201 });
   } catch {
     return NextResponse.json(
-      { message: "Error al eliminar proyecto" },
+      { message: "Error al crear proyecto" },
       { status: 500 }
     );
   }
