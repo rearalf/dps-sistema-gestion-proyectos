@@ -33,3 +33,28 @@ export const actualizarTarea = async (
 export const eliminarTarea = async (id: number): Promise<void> => {
   await api.delete(`/tareas/${id}`);
 };
+
+/**
+ * Filtra tareas según el rol del usuario:
+ * - Gerentes ven todas las tareas
+ * - Usuarios solo ven tareas asignadas a ellos o sin asignar de sus proyectos
+ */
+export const filtrarTareasPorUsuario = (
+  tareas: Tarea[],
+  userId: number,
+  userRole: "gerente" | "usuario",
+  proyectosAsignados?: number[]
+): Tarea[] => {
+  if (userRole === "gerente") {
+    return tareas;
+  }
+  // Usuarios ven: tareas asignadas a ellos O tareas sin asignar de sus proyectos
+  return tareas.filter((tarea) => {
+    const esAsignadaAlUsuario = tarea.usuarioAsignadoId === userId;
+    const esSinAsignarDeSuProyecto = 
+      !tarea.usuarioAsignadoId && 
+      proyectosAsignados && 
+      proyectosAsignados.includes(tarea.proyectoId);
+    return esAsignadaAlUsuario || esSinAsignarDeSuProyecto;
+  });
+};

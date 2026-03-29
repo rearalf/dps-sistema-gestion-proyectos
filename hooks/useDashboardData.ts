@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
-import { obtenerProyectos, Proyecto } from "@/lib/services/proyectos.service";
-import { obtenerTareas, Tarea } from "@/lib/services/tareas.service";
+import { obtenerProyectos, Proyecto, filtrarProyectosPorUsuario } from "@/lib/services/proyectos.service";
+import { obtenerTareas, Tarea, filtrarTareasPorUsuario } from "@/lib/services/tareas.service";
+import { useAuthStore } from "@/store/useAuthStore";
 
 export interface DashboardData {
   proyectos: Proyecto[];
@@ -18,6 +19,7 @@ export interface DashboardData {
 function useDashboardData(): DashboardData {
   const [proyectos, setProyectos] = useState<Proyecto[]>([]);
   const [tareas, setTareas] = useState<Tarea[]>([]);
+  const user = useAuthStore((state) => state.user);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -26,15 +28,36 @@ function useDashboardData(): DashboardData {
           obtenerProyectos(),
           obtenerTareas(),
         ]);
-        setProyectos(proyectosData);
-        setTareas(tareasData);
+        
+        // Filtrar proyectos según el rol del usuario
+        let proyectosFiltrados = proyectosData;
+        if (user) {
+          proyectosFiltrados = filtrarProyectosPorUsuario(proyectosData, user.id, user.rol);
+        }
+        
+        const proyectosIds = proyectosFiltrados.map(p => p.id).filter((id): id is number => id !== undefined);
+        
+        // Filtrar tareas: por proyectos Y por usuario asignado
+        let tareasFiltradas = tareasData;
+        if (user) {
+          // Primero filtrar por proyectos accesibles
+          tareasFiltradas = tareasData.filter(t => proyectosIds.includes(t.proyectoId));
+          
+          // Luego aplicar filtro de usuario asignado
+          if (user.rol === "usuario") {
+            tareasFiltradas = filtrarTareasPorUsuario(tareasFiltradas, user.id, user.rol, proyectosIds);
+          }
+        }
+        
+        setProyectos(proyectosFiltrados);
+        setTareas(tareasFiltradas);
       } catch (error) {
         console.error("Error al cargar datos:", error);
       }
     };
 
     fetchData();
-  }, []);
+  }, [user]);
 
   return {
     proyectos,

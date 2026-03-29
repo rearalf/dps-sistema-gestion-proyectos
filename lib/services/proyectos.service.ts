@@ -34,3 +34,21 @@ export const actualizarProyecto = async (
 export const eliminarProyecto = async (id: number): Promise<void> => {
   await api.delete(`/proyectos/${id}`);
 };
+
+/**
+ * Filtra proyectos según el rol del usuario:
+ * - Gerentes ven todos los proyectos
+ * - Usuarios solo ven proyectos donde están asignados
+ */
+export const filtrarProyectosPorUsuario = (
+  proyectos: Proyecto[],
+  userId: number,
+  userRole: "gerente" | "usuario"
+): Proyecto[] => {
+  if (userRole === "gerente") {
+    return proyectos;
+  }
+  return proyectos.filter((proyecto) =>
+    proyecto.usuariosAsignados.includes(userId)
+  );
+};

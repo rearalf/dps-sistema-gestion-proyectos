@@ -16,7 +16,7 @@ const estadoInicial: Omit<Proyecto, "id"> = {
   usuariosAsignados: [],
 };
 
-function useProyectos(onSuccess: () => void) {
+function useProyectos(onSuccess: () => void, currentUserId?: number) {
   const [modalAbierto, setModalAbierto] = useState(false);
   const [proyectoEditando, setProyectoEditando] = useState<Proyecto | null>(null);
   const [formData, setFormData] = useState<Omit<Proyecto, "id">>(estadoInicial);
@@ -25,7 +25,11 @@ function useProyectos(onSuccess: () => void) {
 
   const abrirModalCrear = () => {
     setProyectoEditando(null);
-    setFormData(estadoInicial);
+    // Asignar el gerente actual al crear un proyecto
+    setFormData({
+      ...estadoInicial,
+      gerenteId: currentUserId || 1,
+    });
     setError("");
     setModalAbierto(true);
   };
@@ -58,6 +62,15 @@ function useProyectos(onSuccess: () => void) {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
     if (error) setError("");
+  };
+
+  const handleUsuariosAsignadosChange = (usuarioId: number, isChecked: boolean) => {
+    setFormData((prev) => ({
+      ...prev,
+      usuariosAsignados: isChecked
+        ? [...prev.usuariosAsignados, usuarioId]
+        : prev.usuariosAsignados.filter((id) => id !== usuarioId),
+    }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -98,6 +111,7 @@ function useProyectos(onSuccess: () => void) {
     formData,
     error,
     confirmandoEliminar,
+    handleUsuariosAsignadosChange,
     setConfirmandoEliminar,
     abrirModalCrear,
     abrirModalEditar,
