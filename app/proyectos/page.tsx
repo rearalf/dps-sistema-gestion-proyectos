@@ -2,9 +2,13 @@
 import { useCallback, useEffect, useState } from "react";
 import ProtectedRoute from "@/components/ProtectedRoute";
 import Sidebar from "@/components/Sidebar";
-import { Proyecto, obtenerProyectos } from "@/lib/services/proyectos.service";
+import { Proyecto, obtenerProyectos, filtrarProyectosPorUsuario } from "@/lib/services/proyectos.service";
+import { Usuario } from "@/interfaces/user.interface";
+import { getAllUsuarios } from "@/lib/services/usuarios.service";
 import useProyectos from "@/hooks/useProyectos";
-import { FaPlus, FaEdit, FaTrash } from "react-icons/fa";
+import usePermissions from "@/hooks/usePermissions";
+import { useAuthStore } from "@/store/useAuthStore";
+import { FaPlus, FaEdit, FaTrash, FaUsers } from "react-icons/fa";
 
 const estadoColores: Record<string, string> = {
   completado: "bg-green-900/40 text-green-400",
@@ -15,16 +19,35 @@ const estadoColores: Record<string, string> = {
 
 export default function ProyectosPage() {
   const [proyectos, setProyectos] = useState<Proyecto[]>([]);
+  const [usuarios, setUsuarios] = useState<Usuario[]>([]);
+  const { canCreateProyecto, canEditProyecto, canDeleteProyecto, isGerente } = usePermissions();
+  const user = useAuthStore((state) => state.user);
 
   const cargarProyectos = useCallback(async () => {
     const data = await obtenerProyectos();
-    setProyectos(data);
-  }, []);
+    // Filtrar proyectos según el rol del usuario
+    if (user) {
+      const proyectosFiltrados = filtrarProyectosPorUsuario(data, user.id, user.rol);
+      setProyectos(proyectosFiltrados);
+    }
+  }, [user]);
+
+  const cargarUsuarios = useCallback(async () => {
+    if (isGerente) {
+      const response = await getAllUsuarios();
+      if (response.success && response.data) {
+        const usuariosArray = Array.isArray(response.data) ? response.data : [response.data];
+        // Solo cargar usuarios con rol "usuario" para asignación
+        setUsuarios(usuariosArray.filter((u: Usuario) => u.rol === "usuario"));
+      }
+    }
+  }, [isGerente]);
 
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
     cargarProyectos();
-  }, [cargarProyectos]);
+    cargarUsuarios();
+  }, [cargarProyectos, cargarUsuarios]);
 
   const {
     modalAbierto,
@@ -32,6 +55,7 @@ export default function ProyectosPage() {
     formData,
     error,
     confirmandoEliminar,
+    handleUsuariosAsignadosChange,
     setConfirmandoEliminar,
     abrirModalCrear,
     abrirModalEditar,
@@ -39,7 +63,13 @@ export default function ProyectosPage() {
     handleChange,
     handleSubmit,
     handleEliminar,
-  } = useProyectos(cargarProyectos);
+  } = useProyectos(cargarProyectos, user?.id);
+
+  const obtenerNombresUsuarios = (usuariosIds: number[]) => {
+    return usuariosIds
+      .map((id) => usuarios.find((u) => u.id === id)?.nombre || `Usuario #${id}`)
+      .join(", ");
+  };
 
   return (
     <ProtectedRoute>
@@ -55,13 +85,15 @@ export default function ProyectosPage() {
               <h1 className="text-3xl sm:text-4xl font-bold text-gray-50 mb-2">Proyectos</h1>
               <p className="text-gray-400 text-sm sm:text-base">Gestión completa de proyectos</p>
             </div>
-            <button
-              onClick={abrirModalCrear}
-              className="flex items-center justify-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition w-full sm:w-auto"
-            >
-              <FaPlus />
-              Nuevo Proyecto
-            </button>
+            {canCreateProyecto && (
+              <button
+                onClick={abrirModalCrear}
+                className="flex items-center justify-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition w-full sm:w-auto"
+              >
+                <FaPlus />
+                Nuevo Proyecto
+              </button>
+            )}
           </div>
 
           {/* Vista Desktop: Tabla */}
@@ -73,9 +105,12 @@ export default function ProyectosPage() {
                   <th className="text-left p-4 text-gray-400 font-medium">Nombre</th>
                   <th className="text-left p-4 text-gray-400 font-medium">Descripción</th>
                   <th className="text-left p-4 text-gray-400 font-medium">Estado</th>
+                  <th className="text-left p-4 text-gray-400 font-medium hidden xl:table-cell">Usuarios</th>
                   <th className="text-left p-4 text-gray-400 font-medium hidden lg:table-cell">Fecha Inicio</th>
                   <th className="text-left p-4 text-gray-400 font-medium hidden lg:table-cell">Fecha Fin</th>
-                  <th className="text-right p-4 text-gray-400 font-medium">Acciones</th>
+                  {(canEditProyecto || canDeleteProyecto) && (
+                    <th className="text-right p-4 text-gray-400 font-medium">Acciones</th>
+                  )}
                 </tr>
               </thead>
               <tbody>
@@ -93,26 +128,42 @@ export default function ProyectosPage() {
                         {proyecto.estado}
                       </span>
                     </td>
-                    <td className="p-4 text-gray-400 text-sm hidden lg:table-cell">{proyecto.fechaInicio}</td>
-                    <td className="p-4 text-gray-400 text-sm hidden lg:table-cell">{proyecto.fechaFin}</td>
-                    <td className="p-4">
-                      <div className="flex items-center justify-end gap-2">
-                        <button
-                          onClick={() => abrirModalEditar(proyecto)}
-                          className="p-2 text-gray-400 hover:text-blue-400 hover:bg-blue-900/20 rounded-lg transition"
-                          title="Editar"
-                        >
-                          <FaEdit />
-                        </button>
-                        <button
-                          onClick={() => setConfirmandoEliminar(proyecto.id!)}
-                          className="p-2 text-gray-400 hover:text-red-400 hover:bg-red-900/20 rounded-lg transition"
-                          title="Eliminar"
-                        >
-                          <FaTrash />
-                        </button>
+                    <td className="p-4 text-gray-400 text-sm hidden xl:table-cell">
+                      <div className="flex items-center gap-1">
+                        <FaUsers className="text-blue-400" />
+                        <span className="truncate max-w-[150px]">
+                          {proyecto.usuariosAsignados.length > 0 
+                            ? obtenerNombresUsuarios(proyecto.usuariosAsignados)
+                            : "Sin asignar"}
+                        </span>
                       </div>
                     </td>
+                    <td className="p-4 text-gray-400 text-sm hidden lg:table-cell">{proyecto.fechaInicio}</td>
+                    <td className="p-4 text-gray-400 text-sm hidden lg:table-cell">{proyecto.fechaFin}</td>
+                    {(canEditProyecto || canDeleteProyecto) && (
+                      <td className="p-4">
+                        <div className="flex items-center justify-end gap-2">
+                          {canEditProyecto && (
+                            <button
+                              onClick={() => abrirModalEditar(proyecto)}
+                              className="p-2 text-gray-400 hover:text-blue-400 hover:bg-blue-900/20 rounded-lg transition"
+                              title="Editar"
+                            >
+                              <FaEdit />
+                            </button>
+                          )}
+                          {canDeleteProyecto && (
+                            <button
+                              onClick={() => setConfirmandoEliminar(proyecto.id!)}
+                              className="p-2 text-gray-400 hover:text-red-400 hover:bg-red-900/20 rounded-lg transition"
+                              title="Eliminar"
+                            >
+                              <FaTrash />
+                            </button>
+                          )}
+                        </div>
+                      </td>
+                    )}
                   </tr>
                 ))}
                 {proyectos.length === 0 && (
@@ -154,33 +205,51 @@ export default function ProyectosPage() {
                     {proyecto.descripcion}
                   </p>
 
-                  <div className="grid grid-cols-2 gap-2 text-sm">
-                    <div>
-                      <span className="text-gray-500">Inicio:</span>
-                      <p className="text-gray-300">{proyecto.fechaInicio}</p>
+                  <div className="space-y-2 text-sm">
+                    <div className="grid grid-cols-2 gap-2">
+                      <div>
+                        <span className="text-gray-500">Inicio:</span>
+                        <p className="text-gray-300">{proyecto.fechaInicio}</p>
+                      </div>
+                      <div>
+                        <span className="text-gray-500">Fin:</span>
+                        <p className="text-gray-300">{proyecto.fechaFin}</p>
+                      </div>
                     </div>
                     <div>
-                      <span className="text-gray-500">Fin:</span>
-                      <p className="text-gray-300">{proyecto.fechaFin}</p>
+                      <span className="text-gray-500 flex items-center gap-1">
+                        <FaUsers className="text-blue-400" /> Usuarios:
+                      </span>
+                      <p className="text-gray-300 text-xs mt-1">
+                        {proyecto.usuariosAsignados.length > 0 
+                          ? obtenerNombresUsuarios(proyecto.usuariosAsignados)
+                          : "Sin asignar"}
+                      </p>
                     </div>
                   </div>
 
-                  <div className="flex gap-2 pt-3 border-t border-gray-800">
-                    <button
-                      onClick={() => abrirModalEditar(proyecto)}
-                      className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition text-sm font-medium"
-                    >
-                      <FaEdit />
-                      Editar
-                    </button>
-                    <button
-                      onClick={() => setConfirmandoEliminar(proyecto.id!)}
-                      className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition text-sm font-medium"
-                    >
-                      <FaTrash />
-                      Eliminar
-                    </button>
-                  </div>
+                  {(canEditProyecto || canDeleteProyecto) && (
+                    <div className="flex gap-2 pt-3 border-t border-gray-800">
+                      {canEditProyecto && (
+                        <button
+                          onClick={() => abrirModalEditar(proyecto)}
+                          className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition text-sm font-medium"
+                        >
+                          <FaEdit />
+                          Editar
+                        </button>
+                      )}
+                      {canDeleteProyecto && (
+                        <button
+                          onClick={() => setConfirmandoEliminar(proyecto.id!)}
+                          className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition text-sm font-medium"
+                        >
+                          <FaTrash />
+                          Eliminar
+                        </button>
+                      )}
+                    </div>
+                  )}
                 </div>
               ))
             )}
@@ -267,6 +336,42 @@ export default function ProyectosPage() {
                   </select>
                 </div>
 
+                {isGerente && (
+                  <div>
+                    <label className="block text-sm font-medium text-gray-300 mb-2">
+                      <FaUsers className="inline mr-2 text-blue-400" />
+                      Usuarios Asignados
+                    </label>
+                    <div className="bg-gray-800 border border-gray-700 rounded-lg p-3 space-y-2 max-h-40 overflow-y-auto">
+                      {usuarios.length > 0 ? (
+                        usuarios.map((usuario) => (
+                          <label
+                            key={usuario.id}
+                            className="flex items-center gap-2 p-2 hover:bg-gray-700/50 rounded cursor-pointer transition"
+                          >
+                            <input
+                              type="checkbox"
+                              checked={formData.usuariosAsignados.includes(usuario.id)}
+                              onChange={(e) =>
+                                handleUsuariosAsignadosChange(usuario.id, e.target.checked)
+                              }
+                              className="w-4 h-4 text-blue-600 bg-gray-700 border-gray-600 rounded focus:ring-blue-500"
+                            />
+                            <span className="text-gray-300 text-sm">{usuario.nombre}</span>
+                          </label>
+                        ))
+                      ) : (
+                        <p className="text-gray-500 text-sm text-center py-2">
+                          No hay usuarios disponibles
+                        </p>
+                      )}
+                    </div>
+                    <p className="text-xs text-gray-500 mt-1">
+                      {formData.usuariosAsignados.length} usuario(s) seleccionado(s)
+                    </p>
+                  </div>
+                )}
+
                 {error && (
                   <div className="bg-red-900/20 border border-red-800 text-red-400 px-4 py-3 rounded-lg text-sm">
                     {error}
@@ -307,7 +412,7 @@ export default function ProyectosPage() {
                   Cancelar
                 </button>
                 <button
-                  onClick={() => handleEliminar(confirmandoEliminar)}
+                  onClick={() => confirmandoEliminar && handleEliminar(confirmandoEliminar)}
                   className="flex-1 px-4 py-2 bg-red-600 hover:bg-red-700 text-white font-semibold rounded-lg transition"
                 >
                   Eliminar

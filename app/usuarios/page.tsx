@@ -1,5 +1,6 @@
 "use client";
 import Sidebar from "@/components/Sidebar";
+import ProtectedRoute from "@/components/ProtectedRoute";
 import useGetUsuarios from "@/hooks/useGetUsuarios";
 import { FaEdit, FaTrash } from "react-icons/fa";
 
@@ -19,7 +20,8 @@ export default function UsuariosPage() {
   return (
     <>
       <Sidebar />
-      <div className="lg:ml-64 min-h-screen flex-1 w-full bg-gray-950">
+      <ProtectedRoute allowedRoles={["gerente"]}>
+        <div className="lg:ml-64 min-h-screen flex-1 w-full bg-gray-950">
         <div className="pt-14 lg:pt-0">
           <div className="py-4 sm:py-6 lg:py-8">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -246,6 +248,7 @@ export default function UsuariosPage() {
           </div>
         </div>
       </div>
+      </ProtectedRoute>
     </>
   );
 }

@@ -6,6 +6,7 @@ import { useLoadingStore } from "@/store/useLoadingStore";
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
+  allowedRoles?: string[]; // Roles permitidos para acceder a esta ruta
 }
 
 const emptySubscribe = () => () => {};
@@ -27,7 +28,7 @@ function getStoredAuth() {
   return false;
 }
 
-export default function ProtectedRoute({ children }: ProtectedRouteProps) {
+export default function ProtectedRoute({ children, allowedRoles }: ProtectedRouteProps) {
   const router = useRouter();
   const { isAuthenticated, user } = useAuthStore();
   const isClient = useIsClient();
@@ -36,12 +37,16 @@ export default function ProtectedRoute({ children }: ProtectedRouteProps) {
   const stopLoading = useLoadingStore((state) => state.stopLoading);
 
   const isReady = isClient && isAuthenticated && !!user;
+  const hasPermission = !allowedRoles || (user && allowedRoles.includes(user.rol));
 
   useEffect(() => {
     if (isClient && !hasStoredUser && (!isAuthenticated || !user)) {
       router.replace("/login");
+    } else if (isReady && !hasPermission) {
+      // Si el usuario está autenticado pero no tiene el rol adecuado, redirigir al dashboard
+      router.replace("/");
     }
-  }, [isClient, hasStoredUser, isAuthenticated, user, router]);
+  }, [isClient, hasStoredUser, isAuthenticated, user, router, isReady, hasPermission]);
 
   useEffect(() => {
     if (!isReady) {
@@ -50,7 +55,7 @@ export default function ProtectedRoute({ children }: ProtectedRouteProps) {
     return () => stopLoading();
   }, [isReady, startLoading, stopLoading]);
 
-  if (!isReady) {
+  if (!isReady || !hasPermission) {
     return null;
   }
 

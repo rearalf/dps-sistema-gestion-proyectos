@@ -63,7 +63,9 @@ function useTareas(onSuccess: () => void) {
     const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
-      [name]: name === "proyectoId" ? Number(value) : value,
+      [name]: name === "proyectoId" || name === "usuarioAsignadoId" 
+        ? (value === "" || value === "null" ? null : Number(value))
+        : value,
     }));
     if (error) setError("");
   };

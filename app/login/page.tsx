@@ -17,7 +17,7 @@ export default function LoginPage() {
 
   return (
     <PublicRoute>
-      <main className="min-h-screen bg-gray-950 flex items-center justify-center p-4">
+      <main className="min-h-screen bg-gray-950 flex-1 w-full flex items-center justify-center p-4">
         <div className="w-full max-w-md">
           <div className="bg-gray-900 rounded-2xl shadow-2xl p-8 border border-gray-800">
             <div className="text-center mb-8">
