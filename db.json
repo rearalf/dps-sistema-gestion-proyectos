@@ -2,9 +2,9 @@
   "users": [
     {
       "id": 1,
-      "nombre": "Carlos Martínez",
-      "email": "carlos@ejemplo.com",
-      "password": "123456",
+      "nombre": "Usuario roote",
+      "email": "root@user.com",
+      "password": "contraseñaroot",
       "rol": "gerente"
     },
     {
@@ -24,17 +24,14 @@
   ],
   "proyectos": [
     {
+      "id": 1,
       "nombre": "Sistema de Ventas",
       "descripcion": "Desarrollo de un sistema de ventas online con carrito de compras",
       "fechaInicio": "2024-01-15",
       "fechaFin": "2024-06-30",
       "estado": "planificacion",
       "gerenteId": 1,
-      "usuariosAsignados": [
-        2,
-        3
-      ],
-      "id": 1
+      "usuariosAsignados": [2, 3]
     },
     {
       "id": 2,
@@ -44,21 +41,17 @@
       "fechaFin": "2024-08-15",
       "estado": "planificacion",
       "gerenteId": 1,
-      "usuariosAsignados": [
-        2
-      ]
+      "usuariosAsignados": [2]
     },
     {
+      "id": 3,
       "nombre": "Portal Corporativo",
       "descripcion": "Portal web para gestión interna de la empresa",
       "fechaInicio": "2023-11-01",
       "fechaFin": "2024-03-20",
       "estado": "planificacion",
       "gerenteId": 1,
-      "usuariosAsignados": [
-        3
-      ],
-      "id": 3
+      "usuariosAsignados": [3]
     }
   ],
   "tareas": [
