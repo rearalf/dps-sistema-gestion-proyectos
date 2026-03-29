@@ -9,24 +9,24 @@ const ListProject = ({ proyectos }: ListProjectProps) => {
 
   return (
     <div className="bg-white rounded-lg shadow">
-      <div className="p-6 border-b border-gray-200">
-        <h2 className="text-xl font-semibold text-gray-900">
+      <div className="p-4 sm:p-6 border-b border-gray-200">
+        <h2 className="text-lg sm:text-xl font-semibold text-gray-900">
           Proyectos Recientes
         </h2>
       </div>
-      <div className="p-6">
+      <div className="p-4 sm:p-6">
         <div className="space-y-4">
           {proyectos.slice(0, 5).map((proyecto) => (
             <div
               key={proyecto.id}
-              className="border-l-4 border-blue-500 pl-4 py-2"
+              className="border-l-4 border-blue-500 pl-3 sm:pl-4 py-2"
             >
-              <div className="flex items-center justify-between mb-1">
-                <h3 className="font-semibold text-gray-900">
+              <div className="flex items-center justify-between mb-1 gap-2">
+                <h3 className="font-semibold text-gray-900 text-sm sm:text-base truncate">
                   {proyecto.nombre}
                 </h3>
                 <span
-                  className={`px-2 py-1 text-xs rounded-full ${
+                  className={`px-2 py-1 text-xs rounded-full whitespace-nowrap flex-shrink-0 ${
                     proyecto.estado === "completado"
                       ? "bg-green-100 text-green-800"
                       : proyecto.estado === "en-progreso"
@@ -39,10 +39,10 @@ const ListProject = ({ proyectos }: ListProjectProps) => {
                   {proyecto.estado}
                 </span>
               </div>
-              <p className="text-sm text-gray-600 line-clamp-2">
+              <p className="text-xs sm:text-sm text-gray-600 line-clamp-2">
                 {proyecto.descripcion}
               </p>
-              <div className="mt-2 flex gap-4 text-xs text-gray-500">
+              <div className="mt-2 flex flex-col sm:flex-row gap-1 sm:gap-4 text-xs text-gray-500">
                 <span>📅 Inicio: {proyecto.fechaInicio}</span>
                 <span>🏁 Fin: {proyecto.fechaFin}</span>
               </div>
