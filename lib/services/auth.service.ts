@@ -44,3 +44,38 @@ export const login = async (
     };
   }
 };
+
+export const register = async (
+  userData: Omit<Usuario, "id">,
+): Promise<AuthResponse> => {
+  try {
+    const response = await api.post<{
+      accessToken: string;
+      user: Usuario;
+    }>("/register", userData);
+
+    const { accessToken, user } = response.data;
+    const { password, ...usuarioSinPassword } = user;
+
+    return {
+      success: true,
+      message: "Registro exitoso",
+      data: {
+        user: usuarioSinPassword,
+        accessToken,
+      },
+    };
+  } catch (error) {
+    if (error instanceof AxiosError && error.response?.status === 400) {
+      return {
+        success: false,
+        message: "El email ya está registrado",
+      };
+    }
+
+    return {
+      success: false,
+      message: "Error al registrar usuario",
+    };
+  }
+};

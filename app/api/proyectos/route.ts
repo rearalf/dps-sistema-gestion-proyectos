@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-import { NextResponse } from "next/server";
-=======
 import { NextRequest, NextResponse } from "next/server";
->>>>>>> cambios-miguek
 import { fetchFromJsonServer } from "@/lib/api";
 
 export async function GET() {
@@ -15,9 +11,6 @@ export async function GET() {
       { status: 500 }
     );
   }
-<<<<<<< HEAD
-}
-=======
 }
 
 export async function POST(request: NextRequest) {
@@ -35,4 +28,3 @@ export async function POST(request: NextRequest) {
     );
   }
 }
->>>>>>> cambios-miguek

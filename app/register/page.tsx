@@ -1,10 +1,11 @@
 "use client";
-import useLogin from "@/hooks/useLogin";
-import PublicRoute from "@/components/PublicRoute";
+import { FaUser, FaLock, FaEye, FaEyeSlash, FaEnvelope } from "react-icons/fa";
 import Link from "next/link";
-import { FaUser, FaLock, FaEye, FaEyeSlash } from "react-icons/fa";
 
-export default function LoginPage() {
+import PublicRoute from "@/components/PublicRoute";
+import useRegister from "@/hooks/useRegister";
+
+export default function RegisterPage() {
   const {
     error,
     formData,
@@ -13,7 +14,7 @@ export default function LoginPage() {
     setShowPassword,
     handleChange,
     handleSubmit,
-  } = useLogin();
+  } = useRegister();
 
   return (
     <PublicRoute>
@@ -22,12 +23,36 @@ export default function LoginPage() {
           <div className="bg-gray-900 rounded-2xl shadow-2xl p-8 border border-gray-800">
             <div className="text-center mb-8">
               <h1 className="text-3xl font-bold text-gray-50 mb-2">
-                Sistema de Gestión
+                Crear cuenta
               </h1>
-              <p className="text-gray-400">Inicia sesión en tu cuenta</p>
+              <p className="text-gray-400">Regístrate en el sistema</p>
             </div>
 
-            <form onSubmit={handleSubmit} className="space-y-6">
+            <form onSubmit={handleSubmit} className="space-y-5">
+              <div>
+                <label
+                  htmlFor="nombre"
+                  className="block text-sm font-medium text-gray-300 mb-2"
+                >
+                  Nombre completo
+                </label>
+                <div className="relative">
+                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <FaUser className="text-gray-500" />
+                  </div>
+                  <input
+                    id="nombre"
+                    name="nombre"
+                    type="text"
+                    required
+                    value={formData.nombre}
+                    onChange={handleChange}
+                    className="w-full pl-10 pr-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
+                    placeholder="Juan Pérez"
+                  />
+                </div>
+              </div>
+
               <div>
                 <label
                   htmlFor="email"
@@ -37,7 +62,7 @@ export default function LoginPage() {
                 </label>
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <FaUser className="text-gray-500" />
+                    <FaEnvelope className="text-gray-500" />
                   </div>
                   <input
                     id="email"
@@ -83,13 +108,28 @@ export default function LoginPage() {
                 </div>
               </div>
 
-              <div className="flex items-center justify-end">
-                <a
-                  href="#"
-                  className="text-sm text-blue-500 hover:text-blue-400 transition"
+              <div>
+                <label
+                  htmlFor="confirmPassword"
+                  className="block text-sm font-medium text-gray-300 mb-2"
                 >
-                  ¿Olvidaste tu contraseña?
-                </a>
+                  Confirmar contraseña
+                </label>
+                <div className="relative">
+                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <FaLock className="text-gray-500" />
+                  </div>
+                  <input
+                    id="confirmPassword"
+                    name="confirmPassword"
+                    type={showPassword ? "text" : "password"}
+                    required
+                    value={formData.confirmPassword}
+                    onChange={handleChange}
+                    className="w-full pl-10 pr-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
+                    placeholder="••••••••"
+                  />
+                </div>
               </div>
 
               {error && (
@@ -103,25 +143,23 @@ export default function LoginPage() {
                 disabled={isLoading}
                 className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-gray-700 disabled:cursor-not-allowed text-white font-semibold py-3 rounded-lg transition duration-200 shadow-lg hover:shadow-xl"
               >
-                {isLoading ? "Iniciando sesión..." : "Iniciar sesión"}
+                {isLoading ? "Registrando..." : "Crear cuenta"}
               </button>
             </form>
 
-            {/* Registro */}
             <div className="mt-6 text-center">
               <p className="text-gray-400 text-sm">
-                ¿No tienes una cuenta?{" "}
+                ¿Ya tienes una cuenta?{" "}
                 <Link
-                  href="/register"
+                  href="/login"
                   className="text-blue-500 hover:text-blue-400 font-medium transition"
                 >
-                  Regístrate aquí
+                  Inicia sesión
                 </Link>
               </p>
             </div>
           </div>
 
-          {/* Footer */}
           <p className="text-center text-gray-500 text-sm mt-6">
             © 2026 Sistema de Gestión de Proyectos
           </p>

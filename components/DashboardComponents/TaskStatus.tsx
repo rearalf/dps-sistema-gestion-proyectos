@@ -9,12 +9,12 @@ const TaskStatus = ({ data: stats }: TaskStatusProps) => {
 
   return (
     <div className="bg-gray-900 rounded-lg shadow border border-gray-800">
-      <div className="p-6 border-b border-gray-800">
-        <h2 className="text-xl font-semibold text-gray-100">
+      <div className="p-4 sm:p-6 border-b border-gray-800">
+        <h2 className="text-lg sm:text-xl font-semibold text-gray-100">
           Estado de Tareas
         </h2>
       </div>
-      <div className="p-6">
+      <div className="p-4 sm:p-6">
         <div className="mb-6">
           <div className="flex justify-between mb-2 text-sm">
             <span className="text-gray-400">Progreso General</span>

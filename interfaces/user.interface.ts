@@ -28,3 +28,7 @@ export interface AuthState {
   setAuth: (user: Omit<Usuario, "password">, token: string) => void;
   logout: () => void;
 }
+
+export type RegisterFormData = Omit<Usuario, "id" | "rol"> & {
+  confirmPassword: string;
+};
