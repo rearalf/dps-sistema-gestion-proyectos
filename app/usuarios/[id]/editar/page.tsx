@@ -138,8 +138,8 @@ export default function EditarUsuarioPage() {
     return (
       <>
         <Sidebar />
-        <div className="lg:ml-64 min-h-screen bg-gray-50 flex items-center justify-center flex-1 w-full">
-          <div className="text-xl">Cargando...</div>
+        <div className="lg:ml-64 min-h-screen bg-gray-950 flex items-center justify-center flex-1 w-full">
+          <div className="text-xl text-gray-100">Cargando...</div>
         </div>
       </>
     );
@@ -148,12 +148,12 @@ export default function EditarUsuarioPage() {
   return (
     <>
       <Sidebar />
-      <div className="lg:ml-64 min-h-screen bg-gray-50 flex-1 w-full">
+      <div className="lg:ml-64 min-h-screen bg-gray-950 flex-1 w-full">
         <div className="pt-14 lg:pt-0">
         <div className="py-4 sm:py-6 lg:py-8">
           <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="bg-white shadow-md rounded-lg p-4 sm:p-6">
-          <h1 className="text-xl sm:text-2xl font-bold text-gray-900 mb-4 sm:mb-6">
+        <div className="bg-gray-900 shadow-md rounded-lg border border-gray-800 p-4 sm:p-6">
+          <h1 className="text-xl sm:text-2xl font-bold text-gray-100 mb-4 sm:mb-6">
             Editar Usuario
           </h1>
 
@@ -161,7 +161,7 @@ export default function EditarUsuarioPage() {
             <div>
               <label
                 htmlFor="nombre"
-                className="block text-sm font-medium text-gray-700 mb-2"
+                className="block text-sm font-medium text-gray-300 mb-2"
               >
                 Nombre Completo
               </label>
@@ -171,20 +171,20 @@ export default function EditarUsuarioPage() {
                 name="nombre"
                 value={formData.nombre}
                 onChange={handleChange}
-                className={`w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                  errors.nombre ? "border-red-500" : "border-gray-300"
+                className={`w-full px-3 py-2 border rounded-md shadow-sm bg-gray-800 text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+                  errors.nombre ? "border-red-500" : "border-gray-700"
                 }`}
                 placeholder="Ingrese el nombre completo"
               />
               {errors.nombre && (
-                <p className="mt-1 text-sm text-red-600">{errors.nombre}</p>
+                <p className="mt-1 text-sm text-red-400">{errors.nombre}</p>
               )}
             </div>
 
             <div>
               <label
                 htmlFor="email"
-                className="block text-sm font-medium text-gray-700 mb-2"
+                className="block text-sm font-medium text-gray-300 mb-2"
               >
                 Email
               </label>
@@ -194,20 +194,20 @@ export default function EditarUsuarioPage() {
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
-                className={`w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                  errors.email ? "border-red-500" : "border-gray-300"
+                className={`w-full px-3 py-2 border rounded-md shadow-sm bg-gray-800 text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+                  errors.email ? "border-red-500" : "border-gray-700"
                 }`}
                 placeholder="usuario@ejemplo.com"
               />
               {errors.email && (
-                <p className="mt-1 text-sm text-red-600">{errors.email}</p>
+                <p className="mt-1 text-sm text-red-400">{errors.email}</p>
               )}
             </div>
 
             <div>
               <label
                 htmlFor="password"
-                className="block text-sm font-medium text-gray-700 mb-2"
+                className="block text-sm font-medium text-gray-300 mb-2"
               >
                 Nueva Contraseña (dejar en blanco para no cambiar)
               </label>
@@ -217,20 +217,20 @@ export default function EditarUsuarioPage() {
                 name="password"
                 value={formData.password}
                 onChange={handleChange}
-                className={`w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                  errors.password ? "border-red-500" : "border-gray-300"
+                className={`w-full px-3 py-2 border rounded-md shadow-sm bg-gray-800 text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+                  errors.password ? "border-red-500" : "border-gray-700"
                 }`}
                 placeholder="Mínimo 6 caracteres"
               />
               {errors.password && (
-                <p className="mt-1 text-sm text-red-600">{errors.password}</p>
+                <p className="mt-1 text-sm text-red-400">{errors.password}</p>
               )}
             </div>
 
             <div>
               <label
                 htmlFor="confirmPassword"
-                className="block text-sm font-medium text-gray-700 mb-2"
+                className="block text-sm font-medium text-gray-300 mb-2"
               >
                 Confirmar Nueva Contraseña
               </label>
@@ -240,13 +240,13 @@ export default function EditarUsuarioPage() {
                 name="confirmPassword"
                 value={formData.confirmPassword}
                 onChange={handleChange}
-                className={`w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                  errors.confirmPassword ? "border-red-500" : "border-gray-300"
+                className={`w-full px-3 py-2 border rounded-md shadow-sm bg-gray-800 text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+                  errors.confirmPassword ? "border-red-500" : "border-gray-700"
                 }`}
                 placeholder="Confirme la contraseña"
               />
               {errors.confirmPassword && (
-                <p className="mt-1 text-sm text-red-600">
+                <p className="mt-1 text-sm text-red-400">
                   {errors.confirmPassword}
                 </p>
               )}
@@ -255,7 +255,7 @@ export default function EditarUsuarioPage() {
             <div>
               <label
                 htmlFor="rol"
-                className="block text-sm font-medium text-gray-700 mb-2"
+                className="block text-sm font-medium text-gray-300 mb-2"
               >
                 Rol
               </label>
@@ -264,18 +264,18 @@ export default function EditarUsuarioPage() {
                 name="rol"
                 value={formData.rol}
                 onChange={handleChange}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3 py-2 border border-gray-700 rounded-md shadow-sm bg-gray-800 text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
               >
                 <option value="usuario">Usuario</option>
                 <option value="gerente">Gerente</option>
               </select>
             </div>
 
-            <div className="flex gap-4 pt-4">
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 pt-4">
               <button
                 type="submit"
                 disabled={saving}
-                className="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-md font-semibold disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors"
+                className="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-2.5 sm:py-2 px-4 rounded-md font-semibold disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors text-sm sm:text-base"
               >
                 {saving ? "Guardando..." : "Guardar Cambios"}
               </button>
@@ -283,7 +283,7 @@ export default function EditarUsuarioPage() {
                 type="button"
                 onClick={handleCancel}
                 disabled={saving}
-                className="flex-1 bg-gray-300 hover:bg-gray-400 text-gray-800 py-2 px-4 rounded-md font-semibold disabled:bg-gray-200 disabled:cursor-not-allowed transition-colors"
+                className="flex-1 bg-gray-300 hover:bg-gray-400 text-gray-800 py-2.5 sm:py-2 px-4 rounded-md font-semibold disabled:bg-gray-200 disabled:cursor-not-allowed transition-colors text-sm sm:text-base"
               >
                 Cancelar
               </button>

@@ -86,7 +86,8 @@ export default function UsuariosPage() {
                 </div>
               </div>
 
-              <div className="bg-gray-900 rounded-lg border border-gray-800 overflow-hidden">
+              {/* Vista Desktop: Tabla */}
+              <div className="hidden md:block bg-gray-900 rounded-lg border border-gray-800 overflow-hidden">
                 <div className="overflow-x-auto">
                   <table className="min-w-full divide-y">
                     <thead className="border-b border-gray-800">
@@ -177,6 +178,69 @@ export default function UsuariosPage() {
                     </tbody>
                   </table>
                 </div>
+              </div>
+
+              {/* Vista Mobile: Cards */}
+              <div className="md:hidden space-y-4">
+                {filteredUsuarios.length === 0 ? (
+                  <div className="bg-gray-900 rounded-lg border border-gray-800 p-6 text-center text-gray-100">
+                    No hay usuarios registrados
+                  </div>
+                ) : (
+                  filteredUsuarios.map((usuario) => (
+                    <div
+                      key={usuario.id}
+                      className="bg-gray-900 rounded-lg border border-gray-800 p-4 space-y-3"
+                    >
+                      <div className="flex items-start justify-between">
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-2 mb-1">
+                            <span className="text-xs text-gray-500">
+                              ID: {usuario.id}
+                            </span>
+                            <span
+                              className={`px-2 py-1 text-xs font-semibold rounded-full ${
+                                usuario.rol === "gerente"
+                                  ? "bg-purple-100 text-purple-800"
+                                  : "bg-green-100 text-green-800"
+                              }`}
+                            >
+                              {usuario.rol}
+                            </span>
+                          </div>
+                          <h3 className="text-lg font-semibold text-gray-100 truncate">
+                            {usuario.nombre}
+                          </h3>
+                          <a
+                            href={`mailto:${usuario.email}`}
+                            className="text-sm text-blue-500 hover:text-blue-400 underline break-all"
+                          >
+                            {usuario.email}
+                          </a>
+                        </div>
+                      </div>
+
+                      {user?.rol === "gerente" && (
+                        <div className="flex gap-2 pt-3 border-t border-gray-800">
+                          <button
+                            onClick={() => handleEdit(usuario.id)}
+                            className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition text-sm font-medium"
+                          >
+                            <FaEdit />
+                            Editar
+                          </button>
+                          <button
+                            onClick={() => handleDelete(usuario.id)}
+                            className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition text-sm font-medium"
+                          >
+                            <FaTrash />
+                            Eliminar
+                          </button>
+                        </div>
+                      )}
+                    </div>
+                  ))
+                )}
               </div>
             </div>
           </div>
