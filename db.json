@@ -24,14 +24,17 @@
   ],
   "proyectos": [
     {
-      "id": 1,
       "nombre": "Sistema de Ventas",
       "descripcion": "Desarrollo de un sistema de ventas online con carrito de compras",
       "fechaInicio": "2024-01-15",
       "fechaFin": "2024-06-30",
-      "estado": "en-progreso",
+      "estado": "planificacion",
       "gerenteId": 1,
-      "usuariosAsignados": [2, 3]
+      "usuariosAsignados": [
+        2,
+        3
+      ],
+      "id": 1
     },
     {
       "id": 2,
@@ -41,17 +44,21 @@
       "fechaFin": "2024-08-15",
       "estado": "planificacion",
       "gerenteId": 1,
-      "usuariosAsignados": [2]
+      "usuariosAsignados": [
+        2
+      ]
     },
     {
-      "id": 3,
       "nombre": "Portal Corporativo",
       "descripcion": "Portal web para gestión interna de la empresa",
       "fechaInicio": "2023-11-01",
       "fechaFin": "2024-03-20",
-      "estado": "completado",
+      "estado": "planificacion",
       "gerenteId": 1,
-      "usuariosAsignados": [3]
+      "usuariosAsignados": [
+        3
+      ],
+      "id": 3
     }
   ],
   "tareas": [
