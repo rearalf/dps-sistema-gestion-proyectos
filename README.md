@@ -1,119 +1,166 @@
-# Sistema de Gestión de Proyectos
+# 📊 Sistema de Gestión de Proyectos
 
-## Documentación Breve
+Sistema web para la gestión de proyectos y tareas, desarrollado con Next.js, TypeScript y Tailwind CSS. Permite administrar proyectos, tareas y usuarios con autenticación incluida.
 
-Sistema de gestión de proyectos y tareas desarrollado con Next.js 16. Permite la gestión de usuarios, proyectos y tareas con un sistema de autenticación basado en roles (Admin, Manager, Developer). La aplicación utiliza json-server como backend simulado para el almacenamiento de datos.
+---
 
-## Estructura del Proyecto
+## 🚀 Tecnologías utilizadas
 
-```
-sistema-gestion-proyectos/
-├── app/                          # Directorio principal de Next.js (App Router)
-│   ├── api/                      # API Routes
-│   │   ├── login/
-│   │   ├── register/
-│   │   ├── proyectos
-│   │   ├── tareas/
-│   │   └── usuarios/
-│   ├── login/
-│   ├── register/
-│   ├── proyectos/
-│   ├── tareas/
-│   ├── usuarios/
-│   ├── layout.tsx                # Layout principal
-│   └── page.tsx                  # Página de inicio
-├── components/                   # Componentes reutilizables
-│   ├── ApiInterceptor.tsx        # Interceptor de API
-│   ├── Navbar.tsx 
-│   ├── ProtectedRoute.tsx
-│   ├── PublicRoute.tsx
-│   ├── Sidebar.tsx
-│   ├── UserInfo.tsx
-│   ├── DashboardCard/
-│   ├── DashboardComponents/
-│   └── Loading/
-├── hooks/                        # Custom hooks
-│   ├── useDashboardData.ts
-│   ├── useGetUsuarios.ts
-│   ├── useLogin.ts
-│   ├── usePermissions.ts
-│   ├── useProyectos.ts
-│   ├── useRegister.ts
-│   ├── useSidebar.ts
-│   └── useTareas.ts
-├── interfaces/                   # Definiciones de TypeScript
-│   ├── components.interface.ts
-│   └── user.interface.ts
-├── lib/                          # Utilidades y servicios
-│   ├── api.ts
-│   └── services/
-│       ├── auth.service.ts
-│       ├── proyectos.service.ts
-│       ├── tareas.service.ts
-│       └── usuarios.service.ts
-├── store/                        # Estado global (Zustand)
-│   ├── useAuthStore.ts
-│   └── useLoadingStore.ts
-├── constants/                    # Constantes de la aplicación
-│   └── navigation.tsx
-├── db.json                       # Base de datos JSON Server
-└── package.json
+- **Next.js 16** — Framework de React para aplicaciones web
+- **TypeScript** — Tipado estático para JavaScript
+- **Tailwind CSS 4** — Estilos utilitarios
+- **Zustand** — Manejo de estado global
+- **Axios** — Cliente HTTP para consumo de APIs
+- **JSON Server** — Base de datos falsa para desarrollo
+- **JWT (jsonwebtoken)** — Autenticación con tokens
+
+---
+
+## ⚙️ Requisitos previos
+
+- Node.js v18 o superior
+- npm v9 o superior
+
+---
+
+## 🛠️ Instalación y configuración
+
+### 1. Clonar el repositorio
+
+```bash
+git clone <url-del-repositorio>
+cd dps-sistema-gestion-proyectos
 ```
 
-## Cómo Ejecutar la App Localmente
-
-### Requisitos Previos
-
-- Node.js (versión 20 o superior)
-- Administrador de paquetes (npm, yarn, pnpm o bun)
-
-### Pasos para Ejecutar
-
-1. **Instalar dependencias**
+### 2. Instalar dependencias
 
 ```bash
 npm install
 ```
 
-2. **Ejecutar el servidor de desarrollo**
+### 3. Correr el proyecto
 
-Opción 1: Solo Next.js (sin backend)
-```bash
-npm run dev
-```
+El proyecto requiere dos servidores corriendo al mismo tiempo: Next.js y JSON Server.
 
-Opción 2: Next.js + JSON Server (recomendado)
+**Opción A — Correr ambos con un solo comando (recomendado):**
+
 ```bash
 npm run dev:all
 ```
 
-Este comando ejecutará simultáneamente:
-- **Next.js**: [http://localhost:3000](http://localhost:3000)
-- **JSON Server**: [http://localhost:3001](http://localhost:3001)
+**Opción B — Correr por separado en dos terminales:**
 
-3. **Abrir en el navegador**
+```bash
+# Terminal 1 - Next.js
+npm run dev
 
-Abre [http://localhost:3000](http://localhost:3000) para ver la aplicación.
+# Terminal 2 - JSON Server
+npm run json-server
+```
 
-### Scripts Disponibles
+### 4. Abrir en el navegador
 
-- `npm run dev` - Ejecuta el servidor de desarrollo de Next.js
-- `npm run dev:all` - Ejecuta Next.js y JSON Server simultáneamente
-- `npm run build` - Genera el build de producción
-- `npm run start` - Inicia el servidor de producción
-- `npm run lint` - Ejecuta el linter
-- `npm run json-server` - Ejecuta solo el JSON Server
+| Servicio | URL |
+|---|---|
+| Aplicación | http://localhost:3000 |
+| Base de datos | http://localhost:3001 |
 
-### Credenciales de Prueba
+---
 
-Consulta el archivo `db.json` para ver los usuarios disponibles o crea uno nuevo usando la página de registro.
+## 👤 Credenciales de prueba
 
-## Tecnologías Utilizadas
+| Nombre | Email | Contraseña | Rol |
+|---|---|---|---|
+| Carlos Martínez | carlos@ejemplo.com | 123456 | Gerente |
+| Ana García | ana@ejemplo.com | 123456 | Usuario |
+| Luis Pérez | luis@ejemplo.com | 123456 | Usuario |
 
-- **Next.js 16** - Framework de React
-- **TypeScript** - Tipado estático
-- **Tailwind CSS** - Estilos
-- **Zustand** - Gestión de estado
-- **Axios** - Cliente HTTP
-- **JSON Server** - Backend simulado
-- **JWT** - Autenticación
+---
+
+## ✨ Funcionalidades
+
+- **Autenticación** — Login y logout con JWT. Las rutas están protegidas según si hay sesión activa.
+- **Dashboard** — Vista general con estadísticas de proyectos y tareas: totales, en progreso, completados y alta prioridad.
+- **CRUD de Proyectos** — Crear, editar y eliminar proyectos con campos de nombre, descripción, fechas y estado.
+- **CRUD de Tareas** — Crear, editar y eliminar tareas con asignación a proyecto, prioridad y estado.
+- **Loading global** — Spinner automático en cada petición HTTP.
+- **Página 404** — Pantalla personalizada para rutas no encontradas.
+
+---
+
+## 📁 Estructura del proyecto
+
+```
+├── app/                        # Páginas y rutas de la aplicación
+│   ├── api/                    # Endpoints del servidor
+│   │   ├── login/              # POST /api/login
+│   │   ├── proyectos/          # GET y POST /api/proyectos
+│   │   │   └── [id]/           # PUT y DELETE /api/proyectos/:id
+│   │   └── tareas/             # GET y POST /api/tareas
+│   │       └── [id]/           # PUT y DELETE /api/tareas/:id
+│   ├── login/                  # Página de inicio de sesión
+│   ├── proyectos/              # Página de gestión de proyectos
+│   ├── tareas/                 # Página de gestión de tareas
+│   ├── layout.tsx              # Layout global
+│   ├── page.tsx                # Dashboard principal
+│   └── not-found.tsx           # Página 404
+│
+├── components/                 # Componentes reutilizables
+│   ├── DashboardCard/          # Tarjeta de estadística
+│   ├── DashboardComponents/    # Bloques del dashboard
+│   ├── Loading/                # Spinner de carga global
+│   ├── ApiInterceptor.tsx      # Activa el spinner en cada request
+│   ├── ProtectedRoute.tsx      # Protege rutas privadas
+│   ├── PublicRoute.tsx         # Redirige si ya hay sesión
+│   └── UserInfo.tsx            # Info del usuario y botón de logout
+│
+├── hooks/                      # Lógica reutilizable
+│   ├── useDashboardData.ts     # Carga y calcula datos del dashboard
+│   ├── useLogin.ts             # Lógica del formulario de login
+│   ├── useProyectos.ts         # Lógica del CRUD de proyectos
+│   └── useTareas.ts            # Lógica del CRUD de tareas
+│
+├── store/                      # Estado global con Zustand
+│   ├── useAuthStore.ts         # Sesión del usuario (persiste en localStorage)
+│   └── useLoadingStore.ts      # Estado del spinner global
+│
+├── lib/                        # Configuración y servicios
+│   ├── api.ts                  # Cliente Axios y conexión a JSON Server
+│   └── services/
+│       ├── auth.service.ts     # Servicio de autenticación
+│       ├── proyectos.service.ts# Servicio de proyectos
+│       └── tareas.service.ts   # Servicio de tareas
+│
+├── interfaces/                 # Tipos TypeScript
+│   └── user.interface.ts       # Interfaces de usuario y autenticación
+│
+└── db.json                     # Base de datos de desarrollo (JSON Server)
+```
+
+---
+
+## 🔄 Flujo de la aplicación
+
+```
+Usuario entra → ProtectedRoute verifica sesión
+  ↓ Sin sesión → redirige a /login
+  ↓ Con sesión → muestra Dashboard
+
+Login:
+  Formulario → useLogin → auth.service → POST /api/login
+  → Verifica en db.json → genera JWT → guarda en Zustand → redirige a /
+
+Dashboard:
+  useDashboardData → GET /api/proyectos + GET /api/tareas
+  → Calcula estadísticas → renderiza Statistics, ListProject, TaskStatus
+```
+
+---
+
+## 👥 Integrantes del equipo
+
+| Nombre | Carnet |
+|---|---|
+|  |  |
+|  |  |
+|  |  |
