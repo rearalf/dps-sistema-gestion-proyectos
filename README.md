@@ -1,36 +1,119 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Sistema de Gestión de Proyectos
 
-## Getting Started
+## Documentación Breve
 
-First, run the development server:
+Sistema de gestión de proyectos y tareas desarrollado con Next.js 16. Permite la gestión de usuarios, proyectos y tareas con un sistema de autenticación basado en roles (Admin, Manager, Developer). La aplicación utiliza json-server como backend simulado para el almacenamiento de datos.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## Estructura del Proyecto
+
+```
+sistema-gestion-proyectos/
+├── app/                          # Directorio principal de Next.js (App Router)
+│   ├── api/                      # API Routes
+│   │   ├── login/
+│   │   ├── register/
+│   │   ├── proyectos
+│   │   ├── tareas/
+│   │   └── usuarios/
+│   ├── login/
+│   ├── register/
+│   ├── proyectos/
+│   ├── tareas/
+│   ├── usuarios/
+│   ├── layout.tsx                # Layout principal
+│   └── page.tsx                  # Página de inicio
+├── components/                   # Componentes reutilizables
+│   ├── ApiInterceptor.tsx        # Interceptor de API
+│   ├── Navbar.tsx 
+│   ├── ProtectedRoute.tsx
+│   ├── PublicRoute.tsx
+│   ├── Sidebar.tsx
+│   ├── UserInfo.tsx
+│   ├── DashboardCard/
+│   ├── DashboardComponents/
+│   └── Loading/
+├── hooks/                        # Custom hooks
+│   ├── useDashboardData.ts
+│   ├── useGetUsuarios.ts
+│   ├── useLogin.ts
+│   ├── usePermissions.ts
+│   ├── useProyectos.ts
+│   ├── useRegister.ts
+│   ├── useSidebar.ts
+│   └── useTareas.ts
+├── interfaces/                   # Definiciones de TypeScript
+│   ├── components.interface.ts
+│   └── user.interface.ts
+├── lib/                          # Utilidades y servicios
+│   ├── api.ts
+│   └── services/
+│       ├── auth.service.ts
+│       ├── proyectos.service.ts
+│       ├── tareas.service.ts
+│       └── usuarios.service.ts
+├── store/                        # Estado global (Zustand)
+│   ├── useAuthStore.ts
+│   └── useLoadingStore.ts
+├── constants/                    # Constantes de la aplicación
+│   └── navigation.tsx
+├── db.json                       # Base de datos JSON Server
+└── package.json
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Cómo Ejecutar la App Localmente
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Requisitos Previos
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- Node.js (versión 20 o superior)
+- Administrador de paquetes (npm, yarn, pnpm o bun)
 
-## Learn More
+### Pasos para Ejecutar
 
-To learn more about Next.js, take a look at the following resources:
+1. **Instalar dependencias**
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+npm install
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+2. **Ejecutar el servidor de desarrollo**
 
-## Deploy on Vercel
+Opción 1: Solo Next.js (sin backend)
+```bash
+npm run dev
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Opción 2: Next.js + JSON Server (recomendado)
+```bash
+npm run dev:all
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Este comando ejecutará simultáneamente:
+- **Next.js**: [http://localhost:3000](http://localhost:3000)
+- **JSON Server**: [http://localhost:3001](http://localhost:3001)
+
+3. **Abrir en el navegador**
+
+Abre [http://localhost:3000](http://localhost:3000) para ver la aplicación.
+
+### Scripts Disponibles
+
+- `npm run dev` - Ejecuta el servidor de desarrollo de Next.js
+- `npm run dev:all` - Ejecuta Next.js y JSON Server simultáneamente
+- `npm run build` - Genera el build de producción
+- `npm run start` - Inicia el servidor de producción
+- `npm run lint` - Ejecuta el linter
+- `npm run json-server` - Ejecuta solo el JSON Server
+
+### Credenciales de Prueba
+
+Consulta el archivo `db.json` para ver los usuarios disponibles o crea uno nuevo usando la página de registro.
+
+## Tecnologías Utilizadas
+
+- **Next.js 16** - Framework de React
+- **TypeScript** - Tipado estático
+- **Tailwind CSS** - Estilos
+- **Zustand** - Gestión de estado
+- **Axios** - Cliente HTTP
+- **JSON Server** - Backend simulado
+- **JWT** - Autenticación
