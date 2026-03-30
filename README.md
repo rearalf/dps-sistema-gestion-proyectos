@@ -156,9 +156,9 @@ Dashboard:
 ```
 Url de repositorio:
 
-https://github.com/MB503DatIA/UDB.git
+https://github.com/rearalf/dps-sistema-gestion-proyectos 
+https://github.com/rearalf/dps-sistema-gestion-proyectos.git
 
-https://github.com/MB503DatIA/UDB
 
 
 ---
