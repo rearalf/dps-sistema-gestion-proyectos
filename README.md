@@ -154,13 +154,16 @@ Dashboard:
   useDashboardData → GET /api/proyectos + GET /api/tareas
   → Calcula estadísticas → renderiza Statistics, ListProject, TaskStatus
 ```
+Url de repositorio:
+
+https://github.com/MB503DatIA/UDB.git
+
+https://github.com/MB503DatIA/UDB
+
 
 ---
 
 ## 👥 Integrantes del equipo
-
-| Nombre | Carnet |
-|---|---|
-|  |  |
-|  |  |
-|  |  |
+Ricardo Ernesto Alfaro Recinos AR180405 
+Miguel Ángel Barahona García BG191322 
+Neris Moisés Méndez Díaz MD161918 
